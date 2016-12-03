@@ -1,0 +1,55 @@
+# Italian translations for pulputils package.
+# Copyright (C) 2016 THE pulputils'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the pulputils package.
+#
+# Salvo Tomaselli <tiposchi@tiscali.it>, 2016.
+msgid ""
+msgstr ""
+"Project-Id-Version: pulputils\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-12-03 23:06+0100\n"
+"PO-Revision-Date: 2016-12-03 23:10+0100\n"
+"Last-Translator: Salvo Tomaselli <tiposchi@tiscali.it>\n"
+"Language-Team: Italian <kde-i18n-it@kde.org>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=US-ASCII\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 2.0\n"
+
+#: src/fixnames:52
+msgid "File not found"
+msgstr "File non trovato"
+
+#: src/fixnames:55
+msgid "Not a directory"
+msgstr "Non ? una directory"
+
+#: src/fixnames:64
+#, python-format
+msgid "%s -> %s"
+msgstr "%s -> %s"
+
+#: src/fixnames:67
+#, python-format
+msgid "Skipping %s -> %s"
+msgstr "Saltando %s"
+
+#: src/fixnames:83
+msgid "Rename files to avoid escapes"
+msgstr "Rinomina i file per non avere bisogno di escape"
+
+#: src/fixnames:85
+msgid "Directory"
+msgstr "Directory"
+
+#: src/fixnames:87
+msgid "Do not terminate in case of errors"
+msgstr "Non uscire in caso di errori"
+
+#: src/fixnames:93
+#, python-format
+msgid "Scanning %s"
+msgstr "Scansione %s"
+
