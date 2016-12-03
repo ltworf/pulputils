@@ -17,6 +17,7 @@
 #
 # author Salvo "LtWorf" Tomaselli <tiposchi@tiscali.it>
 
+import argparse
 import os
 import sys
 
@@ -40,7 +41,7 @@ def fixedname(name, substitutions):
     return name
 
 
-def rename_things(dirname, substitutions, verbose, ignoreerrors):
+def rename_things(dirname, substitutions, verbose, force):
     try:
         files = os.listdir(dirname)
     except FileNotFoundError:
@@ -60,14 +61,25 @@ def rename_things(dirname, substitutions, verbose, ignoreerrors):
             os.rename(dirname + '/' + i, dirname + '/' + j)
         else:
             print('Skipping %s -> %s' % (i, j), file=sys.stderr)
-            if not ignoreerrors:
+            if not force:
                 return 1
     return 0
 
 
 def main():
-    r = rename_things(sys.argv[1], SUBSTITUTIONS, False, False)
-    sys.exit(r)
+    parser = argparse.ArgumentParser(description='Rename files to avoid escapes')
+    parser.add_argument('paths', metavar='DIRECTORY', type=str, nargs='+',
+                   help='Directory')
+    parser.add_argument('--verbose', action='store_true')
+    parser.add_argument('-f', '--force', action='store_true')
+
+    args = parser.parse_args()
+    for path in args.paths:
+        if args.verbose:
+            print('Scanning %s' % path)
+        r = rename_things(path, SUBSTITUTIONS, args.verbose, args.force)
+        if r != 0 and not force:
+            sys.exit(r)
 
 
 if __name__ == '__main__':
