@@ -41,7 +41,7 @@ def fixedname(name, substitutions):
     return name
 
 
-def rename_things(dirname, substitutions, verbose, force):
+def rename_things(dirname, substitutions, verbose, force, recursive):
     try:
         files = os.listdir(dirname)
     except FileNotFoundError:
@@ -63,6 +63,15 @@ def rename_things(dirname, substitutions, verbose, force):
             print('Skipping %s -> %s' % (i, j), file=sys.stderr)
             if not force:
                 return 1
+
+    # Scanning again. Needs to be done again because the names might be changed
+    if recursive:
+        for i in os.listdir(dirname):
+            f = dirname + '/' + i
+            if os.path.isdir(f):
+                r = rename_things(f, substitutions, verbose, force, recursive)
+                if r:
+                    return r
     return 0
 
 
@@ -72,12 +81,19 @@ def main():
                    help='Directory')
     parser.add_argument('--verbose', action='store_true')
     parser.add_argument('-f', '--force', action='store_true')
+    parser.add_argument('-r', '-R', '--recursive', action='store_true')
 
     args = parser.parse_args()
     for path in args.paths:
         if args.verbose:
             print('Scanning %s' % path)
-        r = rename_things(path, SUBSTITUTIONS, args.verbose, args.force)
+        r = rename_things(
+            path,
+            SUBSTITUTIONS,
+            args.verbose,
+            args.force,
+            args.recursive
+        )
         if r != 0 and not force:
             sys.exit(r)
 
