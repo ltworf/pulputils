@@ -55,7 +55,7 @@ def rename_things(dirname, substitutions, verbose, force):
         j = fixedname(i, substitutions)
         if i == j:
             continue # Nothing to do
-        if not os.path.exists(dirname + '/' + j):
+        if not os.path.exists(dirname + '/' + j) and len(j):
             if verbose:
                 print('%s -> %s' % (i, j))
             os.rename(dirname + '/' + i, dirname + '/' + j)
