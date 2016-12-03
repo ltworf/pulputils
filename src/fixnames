@@ -80,7 +80,7 @@ def main():
     parser.add_argument('paths', metavar='DIRECTORY', type=str, nargs='+',
                    help='Directory')
     parser.add_argument('--verbose', action='store_true')
-    parser.add_argument('-f', '--force', action='store_true')
+    parser.add_argument('-f', '--force', action='store_true', help='Do not terminate in case of errors')
     parser.add_argument('-r', '-R', '--recursive', action='store_true')
 
     args = parser.parse_args()
@@ -94,7 +94,7 @@ def main():
             args.force,
             args.recursive
         )
-        if r != 0 and not force:
+        if r != 0 and not args.force:
             sys.exit(r)
 
 
