@@ -70,7 +70,7 @@ def rename_things(dirname, substitutions, verbose, force, recursive):
             f = dirname + '/' + i
             if os.path.isdir(f):
                 r = rename_things(f, substitutions, verbose, force, recursive)
-                if r:
+                if r and not force:
                     return r
     return 0
 
