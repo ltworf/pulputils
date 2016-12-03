@@ -40,20 +40,34 @@ def fixedname(name, substitutions):
     return name
 
 
-def rename_things(dirname, substitutions):
-    for i in os.listdir(dirname):
-        print('Checking ' + i)
+def rename_things(dirname, substitutions, verbose, ignoreerrors):
+    try:
+        files = os.listdir(dirname)
+    except FileNotFoundError:
+        print('File not found', file=sys.stderr)
+        return 2
+    except NotADirectoryError:
+        print('Not a directory', file=sys.stderr)
+        return 2
+
+    for i in files:
         j = fixedname(i, substitutions)
         if i == j:
             continue # Nothing to do
         if not os.path.exists(dirname + '/' + j):
+            if verbose:
+                print('%s -> %s' % (i, j))
             os.rename(dirname + '/' + i, dirname + '/' + j)
         else:
-            pass #error
+            print('Skipping %s -> %s' % (i, j), file=sys.stderr)
+            if not ignoreerrors:
+                return 1
+    return 0
 
 
 def main():
-    rename_things(sys.argv[1], SUBSTITUTIONS)
+    r = rename_things(sys.argv[1], SUBSTITUTIONS, False, False)
+    sys.exit(r)
 
 
 if __name__ == '__main__':
