@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pulputils\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-04 11:19+0100\n"
+"POT-Creation-Date: 2016-12-04 11:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,24 +30,28 @@ msgstr ""
 msgid "%s -> %s"
 msgstr ""
 
-#: src/fixnames:67
+#: src/fixnames:67 src/fixnames:71
 #, python-format
 msgid "Skipping %s -> %s"
 msgstr ""
 
-#: src/fixnames:83
+#: src/fixnames:83 src/fixnames:87
 msgid "Rename files to avoid escapes"
 msgstr ""
 
-#: src/fixnames:85
+#: src/fixnames:85 src/fixnames:89
 msgid "Directory"
 msgstr ""
 
-#: src/fixnames:87
+#: src/fixnames:87 src/fixnames:91
 msgid "Do not terminate in case of errors"
 msgstr ""
 
-#: src/fixnames:93
+#: src/fixnames:93 src/fixnames:97
 #, python-format
 msgid "Scanning %s"
+msgstr ""
+
+#: src/fixnames:68
+msgid "Unable to rename file"
 msgstr ""
