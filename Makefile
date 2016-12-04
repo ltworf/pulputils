@@ -1,5 +1,5 @@
 translations:
-	xgettext -L Python -j -o po/messages.pot --package-name=pulputils \
+	xgettext --from-code=utf-8 -L Python -j -o po/messages.pot --package-name=pulputils \
 		src/pulputils/* \
 		src/fixnames
 	msgmerge po/it.po po/messages.pot
