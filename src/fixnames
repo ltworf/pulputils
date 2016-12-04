@@ -62,7 +62,11 @@ def rename_things(dirname, substitutions, verbose, force, recursive):
         if not os.path.exists(dirname + '/' + j) and len(j):
             if verbose:
                 print(_('%s -> %s') % (i, j))
-            os.rename(dirname + '/' + i, dirname + '/' + j)
+            try:
+                os.rename(dirname + '/' + i, dirname + '/' + j)
+            except:
+                print(_('Unable to rename file'), file=sys.stderr)
+                return 3
         else:
             print(_('Skipping %s -> %s') % (i, j), file=sys.stderr)
             if not force:
