@@ -19,6 +19,6 @@ install:
 	install -D src/pulputils/__init__.py $${DESTDIR:-/}/usr/share/pulputils/pulputils/__init__.py
 	#Install links
 	install -d $${DESTDIR:-/}/usr/bin/
-	ln -s "../share/pulputils/fixnames" $${DESTDIR:-/}/usr/bin/fixnames
+	ln -fs "../share/pulputils/fixnames" $${DESTDIR:-/}/usr/bin/fixnames
 	#Install translations
 	for i in "$(TRANSLATIONS)"; do install -D po/$${i}.mo $${DESTDIR:-/}/usr/share/locale/$${i}/LC_MESSAGES/pulputils.mo; done
