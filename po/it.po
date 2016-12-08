@@ -34,7 +34,7 @@ msgstr "%s -> %s"
 #: src/fixnames:67 src/fixnames:71
 #, python-format
 msgid "Skipping %s -> %s"
-msgstr "Saltando %s"
+msgstr "Saltando %s -> %s"
 
 #: src/fixnames:83 src/fixnames:87
 msgid "Rename files to avoid escapes"
