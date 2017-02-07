@@ -40,13 +40,20 @@ SUBSTITUTIONS = {
     ('<', ''),
 }
 
+PREFIX_SUBSITUTIONS = {
+    ('--', '__'),
+}
 
-def fixedname(name, substitutions):
+
+def fixedname(name, substitutions, prefix):
     '''
     Returns the new name, according to substitutions
     '''
     for a, b in substitutions:
         name = name.replace(a, b)
+    for a, b in prefix:
+        if name.startswith(a):
+            name = name.replace(a, b)
     return name
 
 
@@ -61,7 +68,7 @@ def rename_things(dirname, substitutions, verbose, force, recursive):
         return 2
 
     for i in files:
-        j = fixedname(i, substitutions)
+        j = fixedname(i, substitutions, PREFIX_SUBSITUTIONS)
         if i == j:
             continue # Nothing to do
         if not os.path.exists(dirname + '/' + j) and len(j):
