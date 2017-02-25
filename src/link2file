@@ -29,11 +29,11 @@ _ = pulputils._
 
 def getsymlinks(path):
     '''
-    yields all the symlinks in a given path
+    yields all the symlinks to regular files in a given path
     '''
     for i in os.listdir(path):
         item = path + '/' + i
-        if os.path.islink(item):
+        if os.path.islink(item) and os.path.isfile(os.path.realpath(item)):
             yield item
         elif os.path.isdir(item):
             yield from getsymlinks(item)
