@@ -1,5 +1,5 @@
 # pulputils
-# Copyright (C) 2016  Salvo "LtWorf" Tomaselli
+# Copyright (C) 2016-2017  Salvo "LtWorf" Tomaselli
 #
 # pulputils is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ _ = gettext.gettext
 VERSION = '1.0'
 
 VERBOSE_VERSION = '%(prog)s (pulputils) ' + VERSION + _('''
-Copyright (C) 2016 Salvo Tomaselli
+Copyright (C) 2016-2017 Salvo Tomaselli
 License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
