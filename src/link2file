@@ -27,16 +27,25 @@ import pulputils
 _ = pulputils._
 
 
-def getsymlinks(path):
+def getsymlinks(path, force, verbose):
     '''
     yields all the symlinks to regular files in a given path
     '''
-    for i in os.listdir(path):
+    try:
+        paths = os.listdir(path)
+    except PermissionError:
+        if force:
+            verbose and print(_('No read permissions on %s') % path, file=sys.stderr)
+            paths = []
+        else:
+            raise
+
+    for i in paths:
         item = path + '/' + i
         if os.path.islink(item) and os.path.isfile(os.path.realpath(item)):
             yield item
         elif os.path.isdir(item):
-            yield from getsymlinks(item)
+            yield from getsymlinks(item, force, verbose)
 
 
 def replacelink(link):
@@ -58,7 +67,6 @@ def replacelink(link):
                     if not b:
                         break
                     writefd.write(b)
-                    #OSError: [Errno 28] No space left on device
     except:
         print(_('Restoring link %s') % link, file=sys.stderr)
         os.unlink(link)
@@ -94,7 +102,7 @@ def main():
     args = parser.parse_args()
 
     for path in args.paths:
-        symlinks = getsymlinks(path)
+        symlinks = getsymlinks(path, args.force, args.verbose)
         while True:
             try:
                 i = next(symlinks)
@@ -104,6 +112,14 @@ def main():
                 break
             except PermissionError as e:
                 print(_('Permission denied: %s') % e.filename, file=sys.stderr)
+                if not args.force:
+                    sys.exit(1)
+            except OSError as e:
+                if e.errno == 28:
+                    print(_('No space left on device'), file=sys.stderr)
+                    sys.exit(1)
+                raise
+
 
 
 if __name__ == '__main__':
