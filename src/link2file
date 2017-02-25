@@ -86,9 +86,14 @@ def main():
     args = parser.parse_args()
 
     for path in args.paths:
-        for i in getsymlinks(path):
-            args.verbose and print(_('Replacing %s with regular file') % i)
-            replacelink(i)
+        symlinks = getsymlinks(path)
+        while True:
+            try:
+                i = next(symlinks)
+                args.verbose and print(_('Replacing %s with regular file') % i)
+                replacelink(i)
+            except StopIteration:
+                break
 
 
 if __name__ == '__main__':
