@@ -65,9 +65,30 @@ def replacelink(link):
 
 
 def main():
-    for i in getsymlinks(sys.argv[1]):
-        print(i, '->', os.path.realpath(i))
-        replacelink(i)
+    parser = argparse.ArgumentParser(
+        description=_('Replace links with regular files'),
+        formatter_class=argparse.RawTextHelpFormatter
+    )
+    parser.add_argument(
+        'paths',
+        metavar='DIRECTORY',
+        type=str,
+        nargs='+',
+        help=_('Directory')
+    )
+    parser.add_argument('-v', '--verbose', action='store_true')
+    parser.add_argument(
+        '--version',
+        action='version',
+        version=pulputils.VERBOSE_VERSION,
+        help=_('show program\'s version number and exit')
+    )
+    args = parser.parse_args()
+
+    for path in args.paths:
+        for i in getsymlinks(path):
+            args.verbose and print(_('Replacing %s with regular file') % i)
+            replacelink(i)
 
 
 if __name__ == '__main__':
