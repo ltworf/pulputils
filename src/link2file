@@ -26,6 +26,7 @@ import pulputils
 
 _ = pulputils._
 
+
 def getsymlinks(path):
     '''
     yields all the symlinks in a given path
@@ -36,3 +37,32 @@ def getsymlinks(path):
             yield item
         elif os.path.isdir(item):
             yield from getsymlinks(item)
+
+
+def replacelink(link):
+    real = os.path.realpath(link)
+    pointing = os.readlink(link)
+
+    os.unlink(link)
+
+    with open(real, 'rb') as readfd:
+        with open(link, 'wb') as writefd:
+            while True:
+                b = readfd.read(4096)
+                if not b:
+                    break
+                writefd.write(b)
+                #OSError: [Errno 28] No space left on device
+
+    #TODO create link again if copy failed
+
+def main():
+    for i in getsymlinks(sys.argv[1]):
+        print(i, '->', os.path.realpath(i))
+        replacelink(i)
+
+
+if __name__ == '__main__':
+    main()
+
+#TODO handle interrupt
