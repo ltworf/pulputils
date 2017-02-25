@@ -44,7 +44,9 @@ def replacelink(link):
     pointing = os.readlink(link)
 
     if not os.access(real, os.R_OK):
-        raise PermissionError(_('No read permissions on %s') % real)
+        e = PermissionError(_('No read permissions on %s') % real)
+        e.filename = real
+        raise e
 
     os.unlink(link)
 
@@ -83,6 +85,12 @@ def main():
         version=pulputils.VERBOSE_VERSION,
         help=_('show program\'s version number and exit')
     )
+    parser.add_argument(
+        '-f',
+        '--force',
+        action='store_true',
+        help=_('Do not terminate in case of errors')
+    )
     args = parser.parse_args()
 
     for path in args.paths:
@@ -94,6 +102,8 @@ def main():
                 replacelink(i)
             except StopIteration:
                 break
+            except PermissionError as e:
+                print(_('Permission denied: %s') % e.filename, file=sys.stderr)
 
 
 if __name__ == '__main__':
