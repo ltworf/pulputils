@@ -43,18 +43,26 @@ def replacelink(link):
     real = os.path.realpath(link)
     pointing = os.readlink(link)
 
+    if not os.access(real, os.R_OK):
+        raise PermissionError(_('No read permissions on %s') % real)
+
     os.unlink(link)
 
-    with open(real, 'rb') as readfd:
-        with open(link, 'wb') as writefd:
-            while True:
-                b = readfd.read(4096)
-                if not b:
-                    break
-                writefd.write(b)
-                #OSError: [Errno 28] No space left on device
+    try:
+        with open(real, 'rb') as readfd:
+            with open(link, 'wb') as writefd:
+                while True:
+                    b = readfd.read(4096)
+                    if not b:
+                        break
+                    writefd.write(b)
+                    #OSError: [Errno 28] No space left on device
+    except:
+        print(_('Restoring link %s') % link, file=sys.stderr)
+        os.unlink(link)
+        os.symlink(pointing, link)
+        raise
 
-    #TODO create link again if copy failed
 
 def main():
     for i in getsymlinks(sys.argv[1]):
