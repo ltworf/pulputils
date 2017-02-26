@@ -119,10 +119,10 @@ def main():
                     print(_('No space left on device'), file=sys.stderr)
                     sys.exit(1)
                 raise
-
+            except KeyboardInterrupt:
+                print(_('Interrupted'))
+                sys.exit(2)
 
 
 if __name__ == '__main__':
     main()
-
-#TODO handle interrupt
