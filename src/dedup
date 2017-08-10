@@ -39,6 +39,23 @@ def findreg(path):
                 yield item
 
 
+def group_by_size(paths):
+    '''
+    paths is an iterable containing paths of regular files
+
+    returns a list of lists.
+    All the files  in the sublists have the same size.
+    '''
+    r = {}
+
+    for i in paths:
+        size = os.stat(i).st_size
+        l = r.get(size, [])
+        l.append(i)
+        r[size] = l
+    return list(r.values())
+
+
 def main():
     parser = argparse.ArgumentParser(
         description=_('Locates duplicate regular files'),
@@ -61,7 +78,10 @@ def main():
 
     args = parser.parse_args()
 
+    args.verbose and print(_('Searching for regular files...'))
     regfiles = itertools.chain(*[findreg(i) for i in args.paths])
+    args.verbose and print(_('Grouping files by size...'))
+    size_groups = group_by_size(regfiles)
 
 
 if __name__ == '__main__':
