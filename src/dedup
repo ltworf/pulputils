@@ -74,8 +74,12 @@ def find_duplicates(paths):
     initial_groups = {}
 
     for i in paths:
-        with open(i, 'rb') as f:
-            key = f.read(64)
+        try:
+            with open(i, 'rb') as f:
+                key = f.read(64)
+        except PermissionError:
+            print(_('Permission denied: %s') % i, file=sys.stderr)
+            sys.exit(1)
         l = initial_groups.get(key, [])
         l.append(i)
         initial_groups[key] = l
