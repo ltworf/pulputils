@@ -18,10 +18,12 @@ install:
 	#Install py files
 	install -D src/fixnames $${DESTDIR:-/}/usr/share/pulputils/fixnames
 	install -D src/link2file $${DESTDIR:-/}/usr/share/pulputils/link2file
+	install -D src/dedup $${DESTDIR:-/}/usr/share/pulputils/dedup
 	install -D src/pulputils/__init__.py $${DESTDIR:-/}/usr/share/pulputils/pulputils/__init__.py
 	#Install links
 	install -d $${DESTDIR:-/}/usr/bin/
 	ln -fs "../share/pulputils/fixnames" $${DESTDIR:-/}/usr/bin/fixnames
 	ln -fs "../share/pulputils/link2file" $${DESTDIR:-/}/usr/bin/link2file
+	ln -fs "../share/pulputils/dedup" $${DESTDIR:-/}/usr/bin/dedup
 	#Install translations
 	for i in "$(TRANSLATIONS)"; do install -D po/$${i}.mo $${DESTDIR:-/}/usr/share/locale/$${i}/LC_MESSAGES/pulputils.mo; done
