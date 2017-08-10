@@ -18,12 +18,26 @@
 # author Salvo "LtWorf" Tomaselli <tiposchi@tiscali.it>
 
 import argparse
+import itertools
 import os
 import sys
 
 import pulputils
 
 _ = pulputils._
+
+
+def findreg(path):
+    '''
+    yields regular files inside a path
+    '''
+    path = os.path.realpath(path)
+    for dirname, _, files in os.walk(path):
+        for i in files:
+            item = dirname + '/' + i
+            if os.path.isfile(item):
+                yield item
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -46,8 +60,9 @@ def main():
     )
 
     args = parser.parse_args()
-    for path in args.paths:
-        print(path)
+
+    regfiles = itertools.chain(*[findreg(i) for i in args.paths])
+
 
 if __name__ == '__main__':
     main()
