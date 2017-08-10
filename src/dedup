@@ -124,6 +124,19 @@ def calculate_waste(duplicate_groups):
     print(_('%s wasted.') % pulputils.human_size(r))
 
 
+def delete_duplicates(duplicate_groups, verbose: bool):
+    '''
+    Deletes duplicate files, leaving one copy
+    '''
+    c = 0
+    for group in duplicate_groups:
+        for duplicate in group[1:]:
+            c += 1
+            verbose and print(_('Deleting %s') % duplicate)
+            os.unlink(duplicate)
+    print(_('Deleted %d files') % c)
+
+
 def main():
     parser = argparse.ArgumentParser(
         description=_('Locates duplicate regular files'),
@@ -163,6 +176,12 @@ def main():
         help=_('ignore files smaller than this size. Defaults to 1'),
         default=1,
     )
+    parser.add_argument(
+        '-D',
+        '--delete',
+        action='store_true',
+        help=_('Delete all duplicated files except one')
+    )
 
     args = parser.parse_args()
 
@@ -177,6 +196,8 @@ def main():
         list_duplicates(duplicate_groups)
     if args.calculate:
         calculate_waste(duplicate_groups)
+    if args.delete:
+        delete_duplicates(duplicate_groups, args.verbose)
 
 
 if __name__ == '__main__':
