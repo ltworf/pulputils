@@ -18,6 +18,7 @@
 # author Salvo "LtWorf" Tomaselli <tiposchi@tiscali.it>
 
 import argparse
+import hashlib
 import itertools
 import os
 import sys
@@ -56,6 +57,42 @@ def group_by_size(paths):
     return list(r.values())
 
 
+def find_duplicates(paths):
+    '''
+    reads files to find the ones that are identical
+
+    generator, returns lists of identical files
+    '''
+    if len(paths) < 2:
+        return []
+
+    # Files that have the same header
+    initial_groups = {}
+
+    for i in paths:
+        with open(i, 'rb') as f:
+            key = f.read(64)
+        l = initial_groups.get(key, [])
+        l.append(i)
+        initial_groups[key] = l
+
+    same_hash = {}
+    for i in initial_groups.values():
+        if len(i) < 2:
+            continue
+        for filename in i:
+            with open(filename, 'rb') as f:
+                sha = hashlib.sha512(f.read()).digest()
+            l = same_hash.get(sha, [])
+            l.append(filename)
+            same_hash[sha] = l
+
+    for i in same_hash.values():
+        if len(i) < 2:
+            continue
+        yield i
+
+
 def main():
     parser = argparse.ArgumentParser(
         description=_('Locates duplicate regular files'),
@@ -82,6 +119,7 @@ def main():
     regfiles = itertools.chain(*[findreg(i) for i in args.paths])
     args.verbose and print(_('Grouping files by size...'))
     size_groups = group_by_size(regfiles)
+    duplicate_groups = itertools.chain(*[find_duplicates(i) for i in size_groups])
 
 
 if __name__ == '__main__':
