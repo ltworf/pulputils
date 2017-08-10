@@ -1,0 +1,54 @@
+#!/usr/bin/python3
+# pulputils
+# Copyright (C) 2017  Salvo "LtWorf" Tomaselli
+#
+# pulputils is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# author Salvo "LtWorf" Tomaselli <tiposchi@tiscali.it>
+
+import argparse
+import os
+import sys
+
+import pulputils
+
+_ = pulputils._
+
+def main():
+    parser = argparse.ArgumentParser(
+        description=_('Locates duplicate regular files'),
+        formatter_class=argparse.RawTextHelpFormatter
+    )
+    parser.add_argument(
+        'paths',
+        metavar='DIRECTORY',
+        type=str,
+        nargs='+',
+        help=_('Directory')
+    )
+    parser.add_argument('-v', '--verbose', action='store_true')
+    parser.add_argument(
+        '--version',
+        action='version',
+        version=pulputils.VERBOSE_VERSION,
+        help=_('show program\'s version number and exit')
+    )
+
+    args = parser.parse_args()
+    for path in args.paths:
+        print(path)
+
+if __name__ == '__main__':
+    main()
+
