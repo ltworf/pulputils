@@ -7,7 +7,8 @@ translations:
 	xgettext --from-code=utf-8 -L Python -j -o po/messages.pot --package-name=pulputils \
 		src/pulputils/* \
 		src/fixnames \
-		src/link2file
+		src/link2file \
+		src/dedup
 	for i in "$(TRANSLATIONS)"; do msgmerge --update po/$${i}.po po/messages.pot; done
 
 clean:
