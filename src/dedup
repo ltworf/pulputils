@@ -42,7 +42,7 @@ def findreg(path):
                 yield item
 
 
-def group_by_size(paths):
+def group_by_size(paths, minsize: int):
     '''
     paths is an iterable containing paths of regular files
 
@@ -53,6 +53,8 @@ def group_by_size(paths):
 
     for i in paths:
         size = os.stat(i).st_size
+        if size < minsize:
+            continue
         l = r.get(size, [])
         l.append(i)
         r[size] = l
@@ -149,13 +151,21 @@ def main():
         action='store_true',
         help=_('list all groups of duplicated files')
     )
+    parser.add_argument(
+        '-m',
+        '--minsize',
+        action='store',
+        type=int,
+        help=_('ignore files smaller than this size. Defaults to 1'),
+        default=1,
+    )
 
     args = parser.parse_args()
 
     args.verbose and print(_('Searching for regular files...'))
     regfiles = itertools.chain(*[findreg(i) for i in args.paths])
     args.verbose and print(_('Grouping files by size...'))
-    size_groups = group_by_size(regfiles)
+    size_groups = group_by_size(regfiles, args.minsize)
     args.verbose and print(_('Grouping identical files...'))
     duplicate_groups = list(itertools.chain(*[find_duplicates(i) for i in size_groups]))
 
@@ -167,4 +177,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
