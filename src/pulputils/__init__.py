@@ -31,3 +31,20 @@ There is NO WARRANTY, to the extent permitted by law.
 
 Written by Salvo Tomaselli.
 ''')
+
+def human_size(size: int) -> str:
+    '''
+    Converts a size in bytes to a human readable string
+    '''
+    #4,0K
+    unit = 'B'
+    if size >= 1024:
+        size /= 1024
+        unit = 'K'
+    if size >= 1024:
+        size /= 1024
+        unit = 'M'
+    if size >= 1024:
+        size /= 1024
+        unit = 'G'
+    return '%0.1f%s' % (size, unit)
