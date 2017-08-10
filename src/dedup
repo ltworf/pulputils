@@ -93,6 +93,17 @@ def find_duplicates(paths):
         yield i
 
 
+def list_duplicates(duplicate_groups):
+    '''
+    Prints a lists all duplicated files, splitting them into
+    groups.
+    '''
+    for group in duplicate_groups:
+        size = pulputils.human_size(os.stat(group[0]).st_size)
+        print(_('>\t%d files. %s each') % (len(group), size))
+        print('\n'.join(group))
+
+
 def calculate_waste(duplicate_groups):
     '''
     Calculate and print how many space is wasted by
@@ -102,7 +113,7 @@ def calculate_waste(duplicate_groups):
     for group in duplicate_groups:
         size = os.stat(group[0]).st_size
         r += size * (len(group) - 1)
-    print(_('%s wasted.' % pulputils.human_size(r)))
+    print(_('%s wasted.') % pulputils.human_size(r))
 
 
 def main():
@@ -130,6 +141,12 @@ def main():
         action='store_true',
         help=_('calculate the amount of wasted space')
     )
+    parser.add_argument(
+        '-l',
+        '--list',
+        action='store_true',
+        help=_('list all groups of duplicated files')
+    )
 
     args = parser.parse_args()
 
@@ -140,6 +157,8 @@ def main():
     args.verbose and print(_('Grouping identical files...'))
     duplicate_groups = list(itertools.chain(*[find_duplicates(i) for i in size_groups]))
 
+    if args.list:
+        list_duplicates(duplicate_groups)
     if args.calculate:
         calculate_waste(duplicate_groups)
 
