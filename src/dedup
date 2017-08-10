@@ -36,7 +36,9 @@ def findreg(path):
     for dirname, _, files in os.walk(path):
         for i in files:
             item = dirname + '/' + i
-            if os.path.isfile(item):
+            if os.path.islink(item):
+                continue
+            elif os.path.isfile(item):
                 yield item
 
 
