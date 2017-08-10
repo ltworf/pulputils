@@ -119,6 +119,7 @@ def main():
     regfiles = itertools.chain(*[findreg(i) for i in args.paths])
     args.verbose and print(_('Grouping files by size...'))
     size_groups = group_by_size(regfiles)
+    args.verbose and print(_('Grouping identical files...'))
     duplicate_groups = itertools.chain(*[find_duplicates(i) for i in size_groups])
 
 
