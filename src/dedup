@@ -158,28 +158,32 @@ def delete_duplicates(duplicate_groups, verbose: bool):
     print(_('Deleted %d files') % c)
 
 
-def join_files(duplicate_groups, verbose: bool):
+def join_files(duplicate_groups, verbose: bool, symlink: bool) -> None:
     '''
     Files is a list of identical files
 
     They will get deleted and replaced by a symlink
     to one of them
     '''
+    link_f = os.symlink if symlink else os.link
+
     for files in duplicate_groups:
         basefile = os.path.realpath(files[0])
 
         for file in files[1:]:
             file = os.path.realpath(file)
-            common = os.path.commonpath((basefile, file))
 
-            relfile = file[len(common)+1:]
-            relbasefile = basefile[len(common)+1:]
-
-            up = itertools.repeat('..', len(relfile.split(os.path.sep)) - 1)
-            target = '/'.join(itertools.chain(up,(relbasefile,)))
+            if symlink:
+                common = os.path.commonpath((basefile, file))
+                relfile = file[len(common)+1:]
+                relbasefile = basefile[len(common)+1:]
+                up = itertools.repeat('..', len(relfile.split(os.path.sep)) - 1)
+                target = '/'.join(itertools.chain(up,(relbasefile,)))
+            else:
+                target = basefile
             os.unlink(file)
             verbose and print(_('%s -> %s') % (file, target))
-            os.symlink(target, file)
+            link_f(target, file)
 
 
 def main():
@@ -228,6 +232,12 @@ def main():
         help=_('delete all duplicate files except one')
     )
     parser.add_argument(
+        '-L',
+        '--link',
+        action='store_true',
+        help=_('hard link duplicate files together')
+    )
+    parser.add_argument(
         '-s',
         '--symlink',
         action='store_true',
@@ -249,7 +259,7 @@ def main():
     args = parser.parse_args()
 
     # Make sure only 1 action is selected
-    if len(list(filter(None, (args.symlink, args.delete)))) > 1:
+    if len(list(filter(None, (args.link, args.symlink, args.delete)))) > 1:
         print(_('Only one action can be selected.'), file=sys.stderr)
         sys.exit(2)
 
@@ -271,7 +281,9 @@ def main():
     if args.delete:
         delete_duplicates(duplicate_groups, args.verbose)
     if args.symlink:
-        join_files(duplicate_groups, args.verbose)
+        join_files(duplicate_groups, args.verbose, True)
+    if args.link:
+        join_files(duplicate_groups, args.verbose, False)
 
     # Show counters
     if args.counters:
