@@ -27,6 +27,21 @@ import pulputils
 
 _ = pulputils._
 
+class Counters:
+    def __init__(self):
+        self.files = 0
+        self.headers = 0
+        self.hashes = 0
+
+    def printReport(self):
+        print(_('Files scanned:  \t %d\n'
+                'Headers read:   \t %d\n'
+                'Hashes computed:\t %d\n') % (
+                    self.files,
+                    self.headers,
+                    self.hashes))
+counters = Counters()
+
 
 def findreg(path):
     '''
@@ -39,6 +54,7 @@ def findreg(path):
             if os.path.islink(item):
                 continue
             elif os.path.isfile(item):
+                counters.files += 1
                 yield item
 
 
@@ -74,6 +90,7 @@ def find_duplicates(paths):
     initial_groups = {}
 
     for i in paths:
+        counters.headers += 1
         try:
             with open(i, 'rb') as f:
                 key = f.read(64)
@@ -89,6 +106,7 @@ def find_duplicates(paths):
         if len(i) < 2:
             continue
         for filename in i:
+            counters.hashes += 1
             with open(filename, 'rb') as f:
                 sha = hashlib.sha512(f.read()).digest()
             l = same_hash.get(sha, [])
@@ -180,7 +198,13 @@ def main():
         '-D',
         '--delete',
         action='store_true',
-        help=_('Delete all duplicated files except one')
+        help=_('delete all duplicated files except one')
+    )
+    parser.add_argument(
+        '-C',
+        '--counters',
+        action='store_true',
+        help=_('prints a report at the end, to know how many operations were performed')
     )
 
     args = parser.parse_args()
@@ -198,6 +222,9 @@ def main():
         calculate_waste(duplicate_groups)
     if args.delete:
         delete_duplicates(duplicate_groups, args.verbose)
+
+    if args.counters:
+        counters.printReport()
 
 
 if __name__ == '__main__':
