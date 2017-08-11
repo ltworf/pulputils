@@ -58,7 +58,7 @@ def findreg(path):
                 yield item
 
 
-def group_by_size(paths, minsize: int):
+def group_by_size(paths, minsize: int, skip_manylinks: bool):
     '''
     paths is an iterable containing paths of regular files
 
@@ -68,8 +68,11 @@ def group_by_size(paths, minsize: int):
     r = {}
 
     for i in paths:
-        size = os.stat(i).st_size
+        stat_st = os.stat(i)
+        size = stat_st.st_size
         if size < minsize:
+            continue
+        if skip_manylinks and stat_st.st_nlink > 1:
             continue
         l = r.get(size, [])
         l.append(i)
@@ -236,6 +239,12 @@ def main():
         action='store_true',
         help=_('prints a report at the end, to know how many operations were performed')
     )
+    parser.add_argument(
+        '-H',
+        '--hardlinks',
+        action='store_false',
+        help=_('do not skip files with multiple hardlinks')
+    )
 
     args = parser.parse_args()
 
@@ -248,7 +257,7 @@ def main():
     args.verbose and print(_('Searching for regular files...'))
     regfiles = itertools.chain(*[findreg(i) for i in args.paths])
     args.verbose and print(_('Grouping files by size...'))
-    size_groups = group_by_size(regfiles, args.minsize)
+    size_groups = group_by_size(regfiles, args.minsize, args.hardlinks)
     args.verbose and print(_('Grouping identical files...'))
     duplicate_groups = list(itertools.chain(*[find_duplicates(i) for i in size_groups]))
 
