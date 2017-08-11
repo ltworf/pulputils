@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pulputils\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-04 11:43+0100\n"
+"POT-Creation-Date: 2017-08-12 00:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,41 +17,170 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/fixnames:52
+#: src/fixnames:52 src/fixnames:64
 msgid "File not found"
 msgstr ""
 
-#: src/fixnames:55
+#: src/fixnames:55 src/fixnames:67
 msgid "Not a directory"
 msgstr ""
 
-#: src/fixnames:64
+#: src/fixnames:64 src/fixnames:76 src/dedup:185
 #, python-format
 msgid "%s -> %s"
 msgstr ""
 
-#: src/fixnames:67 src/fixnames:71
+#: src/fixnames:67 src/fixnames:71 src/fixnames:83
 #, python-format
 msgid "Skipping %s -> %s"
 msgstr ""
 
-#: src/fixnames:83 src/fixnames:87
+#: src/fixnames:83 src/fixnames:87 src/fixnames:100
 msgid "Rename files to avoid escapes"
 msgstr ""
 
-#: src/fixnames:85 src/fixnames:89
+#: src/fixnames:85 src/fixnames:89 src/fixnames:108 src/link2file:87
+#: src/dedup:199
 msgid "Directory"
 msgstr ""
 
-#: src/fixnames:87 src/fixnames:91
+#: src/fixnames:87 src/fixnames:91 src/fixnames:115 src/link2file:100
 msgid "Do not terminate in case of errors"
 msgstr ""
 
-#: src/fixnames:93 src/fixnames:97
+#: src/fixnames:93 src/fixnames:97 src/fixnames:128
 #, python-format
 msgid "Scanning %s"
 msgstr ""
 
-#: src/fixnames:68
+#: src/fixnames:68 src/fixnames:80
 msgid "Unable to rename file"
+msgstr ""
+
+#: src/pulputils/__init__.py:26
+msgid ""
+"\n"
+"Copyright (C) 2016-2017 Salvo Tomaselli\n"
+"License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl."
+"html>.\n"
+"This is free software: you are free to change and redistribute it.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+"\n"
+"Written by Salvo Tomaselli.\n"
+msgstr ""
+
+#: src/fixnames:122 src/link2file:94 src/dedup:206
+msgid "show program's version number and exit"
+msgstr ""
+
+#: src/link2file:38 src/link2file:56
+#, python-format
+msgid "No read permissions on %s"
+msgstr ""
+
+#: src/link2file:71
+#, python-format
+msgid "Restoring link %s"
+msgstr ""
+
+#: src/link2file:79
+msgid "Replace links with regular files"
+msgstr ""
+
+#: src/link2file:109
+#, python-format
+msgid "Replacing %s with regular file"
+msgstr ""
+
+#: src/link2file:114 src/dedup:101
+#, python-format
+msgid "Permission denied: %s"
+msgstr ""
+
+#: src/link2file:119
+msgid "No space left on device"
+msgstr ""
+
+#: src/link2file:123
+msgid "Interrupted"
+msgstr ""
+
+#: src/dedup:37
+#, python-format
+msgid ""
+"Files scanned:  \t %d\n"
+"Headers read:   \t %d\n"
+"Hashes computed:\t %d\n"
+msgstr ""
+
+#: src/dedup:132
+#, python-format
+msgid ">\t%d files. %s each"
+msgstr ""
+
+#: src/dedup:145
+#, python-format
+msgid "%s wasted."
+msgstr ""
+
+#: src/dedup:156
+#, python-format
+msgid "Deleting %s"
+msgstr ""
+
+#: src/dedup:158
+#, python-format
+msgid "Deleted %d files"
+msgstr ""
+
+#: src/dedup:191
+msgid "Locates duplicate regular files"
+msgstr ""
+
+#: src/dedup:212
+msgid "calculate the amount of wasted space"
+msgstr ""
+
+#: src/dedup:218
+msgid "list all groups of duplicate files"
+msgstr ""
+
+#: src/dedup:225
+msgid "ignore files smaller than this size. Defaults to 1"
+msgstr ""
+
+#: src/dedup:232
+msgid "delete all duplicate files except one"
+msgstr ""
+
+#: src/dedup:238
+msgid "hard link duplicate files together"
+msgstr ""
+
+#: src/dedup:244
+msgid "symlink duplicate files together"
+msgstr ""
+
+#: src/dedup:250
+msgid "prints a report at the end, to know how many operations were performed"
+msgstr ""
+
+#: src/dedup:256
+msgid "do not skip files with multiple hardlinks"
+msgstr ""
+
+#: src/dedup:263
+msgid "Only one action can be selected."
+msgstr ""
+
+#: src/dedup:267
+msgid "Searching for regular files..."
+msgstr ""
+
+#: src/dedup:269
+msgid "Grouping files by size..."
+msgstr ""
+
+#: src/dedup:271
+msgid "Grouping identical files..."
 msgstr ""
