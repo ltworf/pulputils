@@ -121,7 +121,7 @@ def find_duplicates(paths):
 
 def list_duplicates(duplicate_groups):
     '''
-    Prints a lists all duplicated files, splitting them into
+    Prints a lists all duplicate files, splitting them into
     groups.
     '''
     for group in duplicate_groups:
@@ -133,7 +133,7 @@ def list_duplicates(duplicate_groups):
 def calculate_waste(duplicate_groups):
     '''
     Calculate and print how many space is wasted by
-    duplicated files
+    duplicate files
     '''
     r = 0
     for group in duplicate_groups:
@@ -153,6 +153,30 @@ def delete_duplicates(duplicate_groups, verbose: bool):
             verbose and print(_('Deleting %s') % duplicate)
             os.unlink(duplicate)
     print(_('Deleted %d files') % c)
+
+
+def join_files(duplicate_groups, verbose: bool):
+    '''
+    Files is a list of identical files
+
+    They will get deleted and replaced by a symlink
+    to one of them
+    '''
+    for files in duplicate_groups:
+        basefile = os.path.realpath(files[0])
+
+        for file in files[1:]:
+            file = os.path.realpath(file)
+            common = os.path.commonpath((basefile, file))
+
+            relfile = file[len(common)+1:]
+            relbasefile = basefile[len(common)+1:]
+
+            up = itertools.repeat('..', len(relfile.split(os.path.sep)) - 1)
+            target = '/'.join(itertools.chain(up,(relbasefile,)))
+            os.unlink(file)
+            verbose and print(_('%s -> %s') % (file, target))
+            os.symlink(target, file)
 
 
 def main():
@@ -184,7 +208,7 @@ def main():
         '-l',
         '--list',
         action='store_true',
-        help=_('list all groups of duplicated files')
+        help=_('list all groups of duplicate files')
     )
     parser.add_argument(
         '-m',
@@ -198,7 +222,13 @@ def main():
         '-D',
         '--delete',
         action='store_true',
-        help=_('delete all duplicated files except one')
+        help=_('delete all duplicate files except one')
+    )
+    parser.add_argument(
+        '-s',
+        '--symlink',
+        action='store_true',
+        help=_('symlink duplicate files together')
     )
     parser.add_argument(
         '-C',
@@ -209,6 +239,12 @@ def main():
 
     args = parser.parse_args()
 
+    # Make sure only 1 action is selected
+    if len(list(filter(None, (args.symlink, args.delete)))) > 1:
+        print(_('Only one action can be selected.'), file=sys.stderr)
+        sys.exit(2)
+
+    # Locate duplicate files
     args.verbose and print(_('Searching for regular files...'))
     regfiles = itertools.chain(*[findreg(i) for i in args.paths])
     args.verbose and print(_('Grouping files by size...'))
@@ -216,13 +252,19 @@ def main():
     args.verbose and print(_('Grouping identical files...'))
     duplicate_groups = list(itertools.chain(*[find_duplicates(i) for i in size_groups]))
 
+    # Show results
     if args.list:
         list_duplicates(duplicate_groups)
     if args.calculate:
         calculate_waste(duplicate_groups)
+
+    # Take actions
     if args.delete:
         delete_duplicates(duplicate_groups, args.verbose)
+    if args.symlink:
+        join_files(duplicate_groups, args.verbose)
 
+    # Show counters
     if args.counters:
         counters.printReport()
 
