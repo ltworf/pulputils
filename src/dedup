@@ -93,7 +93,7 @@ def find_duplicates(paths):
         counters.headers += 1
         try:
             with open(i, 'rb') as f:
-                key = f.read(64)
+                key = f.read(1024)
         except PermissionError:
             print(_('Permission denied: %s') % i, file=sys.stderr)
             sys.exit(1)
