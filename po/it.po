@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: pulputils\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-08-12 00:06+0200\n"
-"PO-Revision-Date: 2017-08-12 00:34+0100\n"
+"PO-Revision-Date: 2017-09-24 16:44+0100\n"
 "Last-Translator: Salvo Tomaselli <tiposchi@tiscali.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -85,12 +85,12 @@ msgstr "stampa le informazioni sulla versione ed esce"
 #: src/link2file:38 src/link2file:56
 #, python-format
 msgid "No read permissions on %s"
-msgstr ""
+msgstr "Permesso di lettura necessario per %s"
 
 #: src/link2file:71
 #, python-format
 msgid "Restoring link %s"
-msgstr ""
+msgstr "Ripristino collegamento %s"
 
 #: src/link2file:79
 msgid "Replace links with regular files"
@@ -104,11 +104,11 @@ msgstr "Sostituisco %s con un file regolare"
 #: src/link2file:114 src/dedup:101
 #, python-format
 msgid "Permission denied: %s"
-msgstr ""
+msgstr "Permesso negato: %s"
 
 #: src/link2file:119
 msgid "No space left on device"
-msgstr ""
+msgstr "Spazio esaurito sul dispositivo"
 
 #: src/link2file:123
 msgid "Interrupted"
@@ -121,6 +121,9 @@ msgid ""
 "Headers read:   \t %d\n"
 "Hashes computed:\t %d\n"
 msgstr ""
+"File controllati:\t %d\n"
+"Header letti:    \t %d\n"
+"Hash calcolati:  \t %d\n"
 
 #: src/dedup:132
 #, python-format
@@ -135,16 +138,16 @@ msgstr "%s sprecati."
 #: src/dedup:156
 #, python-format
 msgid "Deleting %s"
-msgstr ""
+msgstr "Elimino %s"
 
 #: src/dedup:158
 #, python-format
 msgid "Deleted %d files"
-msgstr ""
+msgstr "Eliminati %d file"
 
 #: src/dedup:191
 msgid "Locates duplicate regular files"
-msgstr ""
+msgstr "Individua file regolari duplicati"
 
 #: src/dedup:212
 msgid "calculate the amount of wasted space"
@@ -152,27 +155,28 @@ msgstr "calcola la quantità di spazio sprecato"
 
 #: src/dedup:218
 msgid "list all groups of duplicate files"
-msgstr ""
+msgstr "elenca tutti i gruppi di file duplicati"
 
 #: src/dedup:225
 msgid "ignore files smaller than this size. Defaults to 1"
-msgstr ""
+msgstr "ignora file più piccoli di questa dimensione. Il default è 1"
 
 #: src/dedup:232
 msgid "delete all duplicate files except one"
-msgstr ""
+msgstr "elimina tutti i file duplicati tranne uno"
 
 #: src/dedup:238
 msgid "hard link duplicate files together"
-msgstr ""
+msgstr "crea collegamenti per i file duplicati"
 
 #: src/dedup:244
 msgid "symlink duplicate files together"
-msgstr ""
+msgstr "crea collegamenti simbolici per unire i file duplicati"
 
 #: src/dedup:250
 msgid "prints a report at the end, to know how many operations were performed"
 msgstr ""
+"stampa un rapporto alla fine, per sapere il numero di operazioni eseguite"
 
 #: src/dedup:256
 msgid "do not skip files with multiple hardlinks"
@@ -184,13 +188,14 @@ msgstr "È possibile selezionare solo una azione."
 
 #: src/dedup:267
 msgid "Searching for regular files..."
-msgstr ""
+msgstr "Ricerca di file regolari..."
 
 #: src/dedup:269
 msgid "Grouping files by size..."
-msgstr ""
+msgstr "Raggruppando file per dimensione..."
 
 #: src/dedup:271
 msgid "Grouping identical files..."
-msgstr ""
+msgstr "Raggruppando file identici..."
+
 
