@@ -30,11 +30,10 @@ install:
 	for i in "$(TRANSLATIONS)"; do install -D po/$${i}.mo $${DESTDIR:-/}/usr/share/locale/$${i}/LC_MESSAGES/pulputils.mo; done
 
 dist: clean
-	src/dedup --version | grep pulputils | cut -d\  -f3
-	tar -czvvf pulputils_`src/dedup --version | grep pulputils | cut -d\  -f3`.orig.tar.gz \
-	    src \
-	    po \
-	    Makefile \
-	    README.md \
-	    CHANGELOG \
-	    COPYING
+	cd ..; tar -czvvf pulputils/pulputils_`src/dedup --version | grep pulputils | cut -d\  -f3`.orig.tar.gz \
+	    pulputils/src \
+	    pulputils/po \
+	    pulputils/Makefile \
+	    pulputils/README.md \
+	    pulputils/CHANGELOG \
+	    pulputils/COPYING
