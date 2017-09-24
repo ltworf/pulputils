@@ -1,3 +1,10 @@
 __pycache__
 *.mo
 pulputils.kdev4
+debian/pulputils/
+debian/pulputils.substvars
+debian/files
+debian/debhelper-build-stamp
+debian/pulputils.postinst.debhelper
+debian/pulputils.prerm.debhelper
+debian/.debhelper/
