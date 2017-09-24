@@ -4,7 +4,7 @@ Maintainer: Salvo 'LtWorf' Tomaselli <tiposchi@tiscali.it>
 Homepage: https://github.com/ltworf/pulputils
 Build-Depends: debhelper (>= 10), dh-python
 Section: embedded
-Standards-Version: 4.0.1
+Standards-Version: 4.1.0
 X-Python3-Version: >= 3.4
 
 Package: pulputils
