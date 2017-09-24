@@ -5,7 +5,7 @@ all: messages
 messages:
 	for i in "$(TRANSLATIONS)"; do echo "Building localization $${i}"; msgfmt po/$${i}.po --output-file po/$${i}.mo; done
 
-translations:
+translations: clean
 	xgettext --from-code=utf-8 -L Python -j -o po/messages.pot --package-name=pulputils \
 		src/pulputils/* \
 		src/fixnames \
