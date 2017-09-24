@@ -1,5 +1,7 @@
 TRANSLATIONS="it"
 
+all: messages
+
 messages:
 	for i in "$(TRANSLATIONS)"; do echo "Building localization $${i}"; msgfmt po/$${i}.po --output-file po/$${i}.mo; done
 
@@ -27,7 +29,7 @@ install:
 	ln -fs "../share/pulputils/link2file" $${DESTDIR:-/}/usr/bin/link2file
 	ln -fs "../share/pulputils/dedup" $${DESTDIR:-/}/usr/bin/dedup
 	#Install translations
-	for i in "$(TRANSLATIONS)"; do install -D po/$${i}.mo $${DESTDIR:-/}/usr/share/locale/$${i}/LC_MESSAGES/pulputils.mo; done
+	for i in "$(TRANSLATIONS)"; do install -m644 -D po/$${i}.mo $${DESTDIR:-/}/usr/share/locale/$${i}/LC_MESSAGES/pulputils.mo; done
 
 dist: clean
 	cd ..; tar -czvvf pulputils/pulputils_`pulputils/src/dedup --version | grep pulputils | cut -d\  -f3`.orig.tar.gz \
