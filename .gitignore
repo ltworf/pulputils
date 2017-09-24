@@ -8,3 +8,4 @@ debian/debhelper-build-stamp
 debian/pulputils.postinst.debhelper
 debian/pulputils.prerm.debhelper
 debian/.debhelper/
+src
