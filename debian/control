@@ -1,0 +1,18 @@
+Source: pulputils
+Priority: optional
+Maintainer: Salvo 'LtWorf' Tomaselli <tiposchi@tiscali.it>
+Homepage: https://github.com/ltworf/pulputils
+Build-Depends: debhelper (>= 10), dh-python
+Section: embedded
+Standards-Version: 4.0.1
+X-Python3-Version: >= 3.4
+
+Package: pulputils
+Architecture: all
+Depends: ${misc:Depends}, ${python3:Depends}
+Description: assorted command line utilities
+ This package installs some extra command line utilities.
+ .
+ * dedup: finds duplicated files
+ * fixnames: removes annoying chars from filenames
+ * link2file: replaces symlinks with real files
