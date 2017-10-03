@@ -7,6 +7,7 @@ messages:
 
 translations: clean
 	xgettext --from-code=utf-8 -L Python -j -o po/messages.pot --package-name=pulputils \
+		/usr/lib/python3.5/argparse.py \
 		src/pulputils/* \
 		src/fixnames \
 		src/link2file \
