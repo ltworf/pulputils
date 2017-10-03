@@ -2,3 +2,4 @@ __pycache__
 *.mo
 pulputils.kdev4
 debian/
+*~
