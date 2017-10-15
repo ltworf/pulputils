@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pulputils\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-12 00:06+0200\n"
-"PO-Revision-Date: 2017-09-24 16:44+0100\n"
+"POT-Creation-Date: 2017-10-03 23:01+0200\n"
+"PO-Revision-Date: 2017-10-05 00:05+0100\n"
 "Last-Translator: Salvo Tomaselli <tiposchi@tiscali.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -198,4 +198,153 @@ msgstr "Raggruppando file per dimensione..."
 msgid "Grouping identical files..."
 msgstr "Raggruppando file identici..."
 
+#: /usr/lib/python3.5/argparse.py:300
+msgid "usage: "
+msgstr "uso:"
+
+#: /usr/lib/python3.5/argparse.py:831
+msgid ".__call__() not defined"
+msgstr ""
+
+#: /usr/lib/python3.5/argparse.py:1128
+#, python-format
+msgid "unknown parser %(parser_name)r (choices: %(choices)s)"
+msgstr "parser sconosciuto %(parser_name)r (choices: %(choices)s)"
+
+#: /usr/lib/python3.5/argparse.py:1182
+#, python-format
+msgid "argument \"-\" with mode %r"
+msgstr "argomento \"-\" con modo %r"
+
+#: /usr/lib/python3.5/argparse.py:1190
+#, python-format
+msgid "can't open '%s': %s"
+msgstr "impossibile aprire '%s': %s"
+
+#: /usr/lib/python3.5/argparse.py:1394
+#, python-format
+msgid "cannot merge actions - two groups are named %r"
+msgstr "impossibile unire azioni - due gruppi sono chiamati %r"
+
+#: /usr/lib/python3.5/argparse.py:1432
+msgid "'required' is an invalid argument for positionals"
+msgstr ""
+
+#: /usr/lib/python3.5/argparse.py:1454
+#, python-format
+msgid ""
+"invalid option string %(option)r: must start with a character "
+"%(prefix_chars)r"
+msgstr ""
+
+#: /usr/lib/python3.5/argparse.py:1474
+#, python-format
+msgid "dest= is required for options like %r"
+msgstr ""
+
+#: /usr/lib/python3.5/argparse.py:1491
+#, python-format
+msgid "invalid conflict_resolution value: %r"
+msgstr ""
+
+#: /usr/lib/python3.5/argparse.py:1509
+#, python-format
+msgid "conflicting option string: %s"
+msgid_plural "conflicting option strings: %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /usr/lib/python3.5/argparse.py:1575
+msgid "mutually exclusive arguments must be optional"
+msgstr ""
+
+#: /usr/lib/python3.5/argparse.py:1638
+msgid "positional arguments"
+msgstr ""
+
+#: /usr/lib/python3.5/argparse.py:1639
+msgid "optional arguments"
+msgstr "argomenti opzionali"
+
+#: /usr/lib/python3.5/argparse.py:1654
+msgid "show this help message and exit"
+msgstr "mostra questo aiuto ed esce"
+
+#: /usr/lib/python3.5/argparse.py:1685
+msgid "cannot have multiple subparser arguments"
+msgstr ""
+
+#: /usr/lib/python3.5/argparse.py:1737
+#, python-format
+msgid "unrecognized arguments: %s"
+msgstr "argomenti non riconosciuti: %s"
+
+#: /usr/lib/python3.5/argparse.py:1834
+#, python-format
+msgid "not allowed with argument %s"
+msgstr ""
+
+#: /usr/lib/python3.5/argparse.py:1880 /usr/lib/python3.5/argparse.py:1894
+#, python-format
+msgid "ignored explicit argument %r"
+msgstr ""
+
+#: /usr/lib/python3.5/argparse.py:2001
+#, python-format
+msgid "the following arguments are required: %s"
+msgstr ""
+
+#: /usr/lib/python3.5/argparse.py:2016
+#, python-format
+msgid "one of the arguments %s is required"
+msgstr "uno degli argomenti %s è necessario"
+
+#: /usr/lib/python3.5/argparse.py:2059
+msgid "expected one argument"
+msgstr ""
+
+#: /usr/lib/python3.5/argparse.py:2060
+msgid "expected at most one argument"
+msgstr ""
+
+#: /usr/lib/python3.5/argparse.py:2061
+msgid "expected at least one argument"
+msgstr ""
+
+#: /usr/lib/python3.5/argparse.py:2063
+#, python-format
+msgid "expected %s argument"
+msgid_plural "expected %s arguments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /usr/lib/python3.5/argparse.py:2123
+#, python-format
+msgid "ambiguous option: %(option)s could match %(matches)s"
+msgstr ""
+
+#: /usr/lib/python3.5/argparse.py:2186
+#, python-format
+msgid "unexpected option string: %s"
+msgstr ""
+
+#: /usr/lib/python3.5/argparse.py:2290
+#, python-format
+msgid "%r is not callable"
+msgstr ""
+
+#: /usr/lib/python3.5/argparse.py:2307
+#, python-format
+msgid "invalid %(type)s value: %(value)r"
+msgstr ""
+
+#: /usr/lib/python3.5/argparse.py:2318
+#, python-format
+msgid "invalid choice: %(value)r (choose from %(choices)s)"
+msgstr "scelta invalida: %(value)r (scelte possibili %(choices)s)"
+
+#: /usr/lib/python3.5/argparse.py:2394
+#, python-format
+msgid "%(prog)s: error: %(message)s\n"
+msgstr ""
 
