@@ -111,7 +111,13 @@ def find_duplicates(paths):
         for filename in i:
             counters.hashes += 1
             with open(filename, 'rb') as f:
-                sha = hashlib.sha512(f.read()).digest()
+                h = hashlib.sha512()
+                while True:
+                    block = f.read(4096)
+                    if not len(block):
+                        break
+                    h.update(block)
+                sha = h.digest()
             l = same_hash.get(sha, [])
             l.append(filename)
             same_hash[sha] = l
