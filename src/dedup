@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # pulputils
-# Copyright (C) 2017  Salvo "LtWorf" Tomaselli
+# Copyright (C) 2017-2018  Salvo "LtWorf" Tomaselli
 #
 # pulputils is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -80,7 +80,7 @@ def group_by_size(paths, minsize: int, skip_manylinks: bool):
     return list(r.values())
 
 
-def find_duplicates(paths):
+def find_duplicates(paths, verbose: bool):
     '''
     reads files to find the ones that are identical
 
@@ -91,6 +91,8 @@ def find_duplicates(paths):
 
     # Files that have the same header
     initial_groups = {}
+
+    verbose and print(_('Reading headers for %d files within the same size group' % len(paths)))
 
     for i in paths:
         counters.headers += 1
@@ -108,6 +110,7 @@ def find_duplicates(paths):
     for i in initial_groups.values():
         if len(i) < 2:
             continue
+        verbose and print(_('Calculating hash...'))
         for filename in i:
             counters.hashes += 1
             with open(filename, 'rb') as f:
@@ -274,8 +277,8 @@ def main():
     regfiles = itertools.chain(*[findreg(i) for i in args.paths])
     args.verbose and print(_('Grouping files by size...'))
     size_groups = group_by_size(regfiles, args.minsize, args.hardlinks)
-    args.verbose and print(_('Grouping identical files...'))
-    duplicate_groups = list(itertools.chain(*[find_duplicates(i) for i in size_groups]))
+    args.verbose and print(_('Found %d size groups' % len(size_groups)))
+    duplicate_groups = list(itertools.chain(*[find_duplicates(i, args.verbose) for i in size_groups]))
 
     # Show results
     if args.list:
