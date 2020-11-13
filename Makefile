@@ -37,12 +37,17 @@ install:
 .PHONY: dist
 dist: clean
 	cd ..; tar -czvvf pulputils/pulputils_`pulputils/src/dedup --version | grep pulputils | cut -d\  -f3`.orig.tar.gz \
-	    pulputils/src \
-	    pulputils/po \
+	    pulputils/po/*.po \
+	    pulputils/po/*.pot \
 	    pulputils/Makefile \
 	    pulputils/README.md \
 	    pulputils/CHANGELOG \
-	    pulputils/COPYING
+	    pulputils/COPYING \
+	    pulputils/src/pulputils/*.py \
+	    pulputils/src/dedup \
+	    pulputils/src/fixnames \
+	    pulputils/src/link2file
+	gpg --detach-sign -a *.orig.tar.gz
 
 .PHONY: deb-pkg
 deb-pkg: dist
