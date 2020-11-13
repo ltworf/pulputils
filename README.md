@@ -8,5 +8,6 @@ would be error prone and time consuming.
 
 This is the list of the current commands
 
+* dedup: To find duplicate files and link or delete them
 * fixnames: To rename files with names that require escaping into names that do not require escaping
 * link2file: Replaces symlinks with a copy of the file
