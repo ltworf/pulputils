@@ -1,5 +1,6 @@
 __pycache__
 *.mo
 pulputils.kdev4
-debian/
 *~
+deb-pkg/
+*orig.tar.gz*

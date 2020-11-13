@@ -1,0 +1,5 @@
+#!/usr/bin/make -f
+SHELL=sh -e
+
+%:
+	dh $@ --with python3
