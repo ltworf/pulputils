@@ -14,6 +14,10 @@ translations: clean
 		src/dedup
 	for i in "$(TRANSLATIONS)"; do msgmerge --update po/$${i}.po po/messages.pot; done
 
+.PHONY: mypy
+mypy:
+	cd src; mypy dedup
+
 .PHONY: clean
 clean:
 	rm -rf src/pulputils/__pycache__

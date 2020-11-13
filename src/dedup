@@ -22,6 +22,7 @@ import hashlib
 import itertools
 import os
 import sys
+from typing import Iterator, Dict, List, Tuple
 
 import pulputils
 
@@ -43,7 +44,7 @@ class Counters:
 counters = Counters()
 
 
-def findreg(path):
+def findreg(path: str) -> Iterator[str]:
     '''
     yields regular files inside a path
     '''
@@ -58,14 +59,16 @@ def findreg(path):
                 yield item
 
 
-def group_by_size(paths, minsize: int, skip_manylinks: bool):
+def group_by_size(paths: Iterator[str], minsize: int, skip_manylinks: bool) -> List[List[str]]:
     '''
     paths is an iterable containing paths of regular files
 
     returns a list of lists.
     All the files  in the sublists have the same size.
+
+    It will skip files depending on settings
     '''
-    r = {}
+    r: Dict[int, List[str]] = {}
 
     for i in paths:
         stat_st = os.stat(i)
@@ -80,7 +83,7 @@ def group_by_size(paths, minsize: int, skip_manylinks: bool):
     return list(r.values())
 
 
-def find_duplicates(paths, verbose: bool):
+def find_duplicates(paths, preserve_mode: bool, verbose: bool) -> Iterator[List[str]]:
     '''
     reads files to find the ones that are identical
 
@@ -90,7 +93,7 @@ def find_duplicates(paths, verbose: bool):
         return []
 
     # Files that have the same header
-    initial_groups = {}
+    initial_groups: Dict[bytes, List[str]] = {}
 
     verbose and print(_('Reading headers for %d files within the same size group' % len(paths)))
 
@@ -106,7 +109,7 @@ def find_duplicates(paths, verbose: bool):
         l.append(i)
         initial_groups[key] = l
 
-    same_hash = {}
+    same_hash: Dict[bytes, List[str]] = {}
     for i in initial_groups.values():
         if len(i) < 2:
             continue
@@ -128,10 +131,21 @@ def find_duplicates(paths, verbose: bool):
     for i in same_hash.values():
         if len(i) < 2:
             continue
-        yield i
+        if preserve_mode:
+            mode_groups: Dict[Tuple[int, int, int], List[str]] = {}
+            for fname in i:
+                stat_st = os.stat(fname)
+                stkey = (stat_st.st_mode, stat_st.st_uid, stat_st.st_gid)
+                l = mode_groups.get(stkey, [])
+                l.append(fname)
+                mode_groups[stkey] = l
+            for j in mode_groups.values():
+                yield j
+        else:
+            yield i
 
 
-def list_duplicates(duplicate_groups):
+def list_duplicates(duplicate_groups) -> None:
     '''
     Prints a lists all duplicate files, splitting them into
     groups.
@@ -142,7 +156,7 @@ def list_duplicates(duplicate_groups):
         print('\n'.join(group))
 
 
-def calculate_waste(duplicate_groups):
+def calculate_waste(duplicate_groups) -> None:
     '''
     Calculate and print how many space is wasted by
     duplicate files
@@ -154,7 +168,7 @@ def calculate_waste(duplicate_groups):
     print(_('%s wasted.') % pulputils.human_size(r))
 
 
-def delete_duplicates(duplicate_groups, verbose: bool):
+def delete_duplicates(duplicate_groups, verbose: bool) -> None:
     '''
     Deletes duplicate files, leaving one copy
     '''
@@ -195,7 +209,7 @@ def join_files(duplicate_groups, verbose: bool, symlink: bool) -> None:
             link_f(target, file)
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(
         description=_('Locates duplicate regular files'),
         formatter_class=argparse.RawTextHelpFormatter
@@ -264,6 +278,11 @@ def main():
         action='store_false',
         help=_('do not skip files with multiple hardlinks')
     )
+    parser.add_argument(
+        '--ignore-mode',
+        action='store_true',
+        help=_('ignore mode, owner and group and join files anyway')
+    )
 
     args = parser.parse_args()
 
@@ -278,7 +297,7 @@ def main():
     args.verbose and print(_('Grouping files by size...'))
     size_groups = group_by_size(regfiles, args.minsize, args.hardlinks)
     args.verbose and print(_('Found %d size groups' % len(size_groups)))
-    duplicate_groups = list(itertools.chain(*[find_duplicates(i, args.verbose) for i in size_groups]))
+    duplicate_groups = list(itertools.chain(*[find_duplicates(i, not args.ignore_mode, args.verbose) for i in size_groups]))
 
     # Show results
     if args.list:
