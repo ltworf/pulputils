@@ -14,10 +14,12 @@ translations: clean
 		src/dedup
 	for i in "$(TRANSLATIONS)"; do msgmerge --update po/$${i}.po po/messages.pot; done
 
+.PHONY: clean
 clean:
 	rm -rf src/pulputils/__pycache__
 	rm -f po/*.mo
 
+.PHONY: install
 install:
 	#Install py files
 	install -D src/fixnames $${DESTDIR:-/}/usr/share/pulputils/fixnames
@@ -32,6 +34,7 @@ install:
 	#Install translations
 	for i in "$(TRANSLATIONS)"; do install -m644 -D po/$${i}.mo $${DESTDIR:-/}/usr/share/locale/$${i}/LC_MESSAGES/pulputils.mo; done
 
+.PHONY: dist
 dist: clean
 	cd ..; tar -czvvf pulputils/pulputils_`pulputils/src/dedup --version | grep pulputils | cut -d\  -f3`.orig.tar.gz \
 	    pulputils/src \
@@ -40,3 +43,13 @@ dist: clean
 	    pulputils/README.md \
 	    pulputils/CHANGELOG \
 	    pulputils/COPYING
+
+.PHONY: deb-pkg
+deb-pkg: dist
+	mv pulputils_*orig.tar.gz /tmp
+	cd /tmp; tar -xf pulputils_*.orig.tar.gz
+	cp -r debian /tmp/pulputils/
+	cd /tmp/pulputils/; dpkg-buildpackage --changes-option=-S
+	mkdir deb-pkg
+	mv /tmp/pulputils_* deb-pkg
+	$(RM) -r /tmp/pulputils
