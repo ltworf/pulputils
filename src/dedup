@@ -22,7 +22,7 @@ import hashlib
 import itertools
 import os
 import sys
-from typing import Iterator, Dict, List
+from typing import Iterator, Dict, List, Tuple
 
 import pulputils
 
@@ -83,7 +83,7 @@ def group_by_size(paths: Iterator[str], minsize: int, skip_manylinks: bool) -> L
     return list(r.values())
 
 
-def find_duplicates(paths, verbose: bool) -> Iterator[List[str]]:
+def find_duplicates(paths, preserve_mode: bool, verbose: bool) -> Iterator[List[str]]:
     '''
     reads files to find the ones that are identical
 
@@ -131,7 +131,18 @@ def find_duplicates(paths, verbose: bool) -> Iterator[List[str]]:
     for i in same_hash.values():
         if len(i) < 2:
             continue
-        yield i
+        if preserve_mode:
+            mode_groups: Dict[Tuple[int, int, int], List[str]] = {}
+            for fname in i:
+                stat_st = os.stat(fname)
+                stkey = (stat_st.st_mode, stat_st.st_uid, stat_st.st_gid)
+                l = mode_groups.get(stkey, [])
+                l.append(fname)
+                mode_groups[stkey] = l
+            for j in mode_groups.values():
+                yield j
+        else:
+            yield i
 
 
 def list_duplicates(duplicate_groups) -> None:
@@ -267,6 +278,11 @@ def main() -> None:
         action='store_false',
         help=_('do not skip files with multiple hardlinks')
     )
+    parser.add_argument(
+        '--ignore-mode',
+        action='store_true',
+        help=_('ignore mode, owner and group and join files anyway')
+    )
 
     args = parser.parse_args()
 
@@ -281,7 +297,7 @@ def main() -> None:
     args.verbose and print(_('Grouping files by size...'))
     size_groups = group_by_size(regfiles, args.minsize, args.hardlinks)
     args.verbose and print(_('Found %d size groups' % len(size_groups)))
-    duplicate_groups = list(itertools.chain(*[find_duplicates(i, args.verbose) for i in size_groups]))
+    duplicate_groups = list(itertools.chain(*[find_duplicates(i, not args.ignore_mode, args.verbose) for i in size_groups]))
 
     # Show results
     if args.list:
