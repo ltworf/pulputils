@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # pulputils
-# Copyright (C) 2017-2018  Salvo "LtWorf" Tomaselli
+# Copyright (C) 2017-2021  Salvo "LtWorf" Tomaselli
 #
 # pulputils is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -293,7 +293,7 @@ def main() -> None:
 
     # Locate duplicate files
     args.verbose and print(_('Searching for regular files...'))
-    regfiles = itertools.chain(*[findreg(i) for i in args.paths])
+    regfiles = set(itertools.chain(*[findreg(i) for i in args.paths]))
     args.verbose and print(_('Grouping files by size...'))
     size_groups = group_by_size(regfiles, args.minsize, args.hardlinks)
     args.verbose and print(_('Found %d size groups' % len(size_groups)))
