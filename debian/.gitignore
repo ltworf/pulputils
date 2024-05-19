@@ -1,5 +1,0 @@
-*.debhelper
-debhelper-build-stamp
-pulputils/
-files
-pulputils.substvars

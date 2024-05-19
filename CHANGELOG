@@ -1,7 +1,0 @@
-1.1
-- dedup won't crash on duplicated entries being scanned
-
-1.0
-- Fixnames added
-- link2file added
-- dedup added
